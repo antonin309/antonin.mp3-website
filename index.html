@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>antonin — Producer · Berlin</title>
+  <meta name="description" content="antonin — Artist, Producer und DJ aus Berlin. Techno, Trance, Deep House, Hip-Hop und Pop Produktionen. Beats, Mixing & Mastering." />
+  <meta name="keywords" content="antonin, antonin.mp3, Antonin Götz, Producer Berlin, Techno Producer, Trance, Deep House, Hip-Hop Beats, Pop Produktion, Mixing Mastering Berlin, DJ Berlin" />
+  <meta name="author" content="antonin" />
+  <meta property="og:title" content="antonin — Producer · Berlin" />
+  <meta property="og:description" content="Artist, Producer und DJ aus Berlin. Techno, Trance, Deep House, Hip-Hop und Pop." />
+  <meta property="og:image" content="photos/photo1.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="antonin — Producer · Berlin" />
+  <meta name="twitter:description" content="Artist, Producer und DJ aus Berlin." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Space+Mono&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --bg2: #0f0f0f;
+      --fg: #e8e8e8;
+      --muted: #555;
+      --accent: #00ddd4;
+      --orange: #ff7a30;
+      --border: rgba(255,255,255,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    #cursor {
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background 0.2s;
+    }
+    #cursor.expanded {
+      width: 40px; height: 40px;
+      background: transparent;
+      border: 1px solid var(--accent);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 48px;
+      background: linear-gradient(to bottom, rgba(8,8,8,0.95), transparent);
+      backdrop-filter: blur(0px);
+    }
+
+    .nav-logo {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ── HERO ── */
+    #hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 48px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 70% 40%, rgba(0,221,212,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(255,255,255,0.02) 0%, transparent 50%);
+    }
+
+    /* Photo behind hero text */
+    .hero-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      opacity: 0.55;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.85) 100%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.85) 100%);
+    }
+
+    .hero-photo-placeholder {
+      position: absolute;
+      right: 0; top: 0;
+      width: 55%;
+      height: 100%;
+      background: linear-gradient(135deg, #111 0%, #0a0a0a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.5;
+      mask-image: linear-gradient(to left, rgba(0,0,0,0.8) 0%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.8) 0%, transparent 100%);
+    }
+
+    .hero-photo-placeholder span {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .hero-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+      position: relative;
+    }
+
+    h1 {
+      font-size: clamp(72px, 12vw, 160px);
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      color: #fff;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+      position: relative;
+    }
+
+    .hero-sub {
+      margin-top: 32px;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+      position: relative;
+    }
+
+    /* Hero socials — horizontal row at top */
+    .hero-socials {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 100px 48px 0;
+      opacity: 0;
+      animation: fadeIn 1s 0.8s forwards;
+    }
+
+    .hero-social-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      padding: 14px 26px;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 100px;
+      transition: all 0.2s;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-social-link:hover { border-color: var(--accent); background: rgba(0,221,212,0.1); }
+    .hero-social-link:hover .social-name { color: #fff; }
+    .hero-social-link:hover .social-icon { color: var(--accent); }
+
+    .social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.85);
+      transition: color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .social-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+
+    .social-handle { display: none; }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 60px; right: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeIn 1s 1.2s forwards;
+    }
+
+    .scroll-line {
+      width: 1px; height: 60px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes pulse { 0%,100%{ opacity:0.4; } 50%{ opacity:1; } }
+
+    /* ── SECTIONS ── */
+    section { padding: 120px 48px; border-top: 1px solid var(--border); }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 60px;
+    }
+
+    .section-title {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      line-height: 1.05;
+    }
+
+    /* ── BIOGRAFIE ── */
+    #biografie .bio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .bio-photo-wrap {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+    }
+
+    .bio-photo-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(30%);
+      transition: filter 0.4s;
+    }
+
+    .bio-photo-wrap:hover img { filter: grayscale(0%); }
+
+    .bio-photo-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .bio-photo-placeholder span {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .photo-icon { font-size: 32px; opacity: 0.3; }
+
+    .bio-text { display: flex; flex-direction: column; gap: 24px; }
+
+    .bio-text p {
+      font-size: 17px;
+      color: rgba(232,232,232,0.6);
+      line-height: 1.85;
+    }
+
+    .bio-text strong { color: #fff; font-weight: 500; }
+
+    .flex-stats {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .flex-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .flex-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .flex-label {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 8px 16px;
+      border-radius: 100px;
+    }
+
+    /* ── PRODUKTIONEN ── */
+    #produktionen { background: var(--bg2); }
+
+    .prod-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+      margin-top: 60px;
+    }
+
+    .spotify-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .spotify-wrap iframe {
+      border-radius: 12px;
+      width: 100%;
+    }
+
+    .spotify-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .prod-info { display: flex; flex-direction: column; gap: 32px; }
+
+    .prod-info h3 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .prod-info p {
+      font-size: 16px;
+      color: rgba(232,232,232,0.55);
+      line-height: 1.8;
+    }
+
+    .service-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .service-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .service-item span:first-child {
+      font-size: 15px;
+      color: var(--fg);
+    }
+
+    .service-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--orange);
+      letter-spacing: 0.08em;
+    }
+
+    /* Beat grid below */
+    .prod-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 40px;
+      align-items: start;
+    }
+
+    .prod-media { display: flex; flex-direction: column; gap: 0; }
+
+    @media (max-width: 768px) {
+      .prod-block { grid-template-columns: 1fr; }
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .video-wrap {
+      position: relative;
+      aspect-ratio: 16/9;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg2);
+    }
+
+    .video-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+
+    .beat-grid {
+      margin-top: 80px;
+    }
+
+    .beat-grid h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 32px;
+    }
+
+    .beats {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .beat-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .beat-card:hover {
+      border-color: rgba(255,122,48,0.25);
+      transform: translateY(-2px);
+    }
+
+    .beat-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .beat-title { font-size: 15px; font-weight: 600; color: #fff; }
+
+    .beat-genre {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--orange);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,122,48,0.3);
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .beat-meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .beat-bar {
+      height: 2px;
+      background: var(--border);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .beat-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 1px;
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-top: 60px;
+    }
+
+    .contact-left h3 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .contact-left p {
+      font-size: 16px;
+      color: rgba(232,232,232,0.5);
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    .contact-email {
+      display: block;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0,221,212,0.2);
+      padding-bottom: 16px;
+      margin-bottom: 40px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .contact-email:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    .socials { display: flex; flex-direction: column; gap: 16px; }
+
+    .social-link {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.2s;
+    }
+
+    .social-link:hover { color: #fff; }
+    .social-link::before { content: '→'; color: var(--accent); }
+
+    /* Form */
+    form { display: flex; flex-direction: column; gap: 20px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .field { display: flex; flex-direction: column; gap: 8px; }
+
+    .field label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field textarea {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      border-radius: 0;
+      color: var(--fg);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      padding: 14px 0;
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+      width: 100%;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-bottom-color: var(--accent);
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder { color: var(--muted); }
+
+    /* Custom select */
+    .select-wrap {
+      position: relative;
+    }
+
+    .select-wrap::after {
+      content: '↓';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+      font-size: 14px;
+    }
+
+    .field select {
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      border-radius: 0;
+      color: var(--muted);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      padding: 14px 0;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      cursor: none;
+    }
+
+    .field select:focus { border-bottom-color: var(--accent); color: var(--fg); }
+    .field select option { background: #111; color: var(--fg); }
+
+    .submit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #000;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 16px 32px;
+      border: none;
+      border-radius: 100px;
+      cursor: none;
+      transition: background 0.2s, transform 0.2s;
+      align-self: flex-start;
+      margin-top: 8px;
+    }
+
+    .submit-btn:hover {
+      background: #fff;
+      transform: translateY(-2px);
+    }
+
+    .form-success {
+      display: none;
+      padding: 20px;
+      border: 1px solid rgba(0,221,212,0.3);
+      border-radius: 8px;
+      color: var(--accent);
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer span {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── CURSOR TRAIL ── */
+    .cursor-trail {
+      position: fixed;
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      opacity: 0.5;
+      transition: opacity 0.4s ease;
+    }
+
+    /* ── LANG SWITCHER ── */
+    .lang-switcher {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.3);
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      padding: 5px 7px;
+      cursor: none;
+      transition: color 0.2s;
+    }
+    .lang-btn:hover { color: rgba(255,255,255,0.7); }
+    .lang-btn.active { color: var(--accent); }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; flex-direction: column; align-items: flex-start; gap: 10px; background: rgba(8,8,8,0.97); }
+      .nav-links { gap: 20px; }
+      .nav-links a { font-size: 11px; }
+      .lang-switcher { gap: 6px; }
+      .lang-btn { font-size: 10px; padding: 3px 8px; }
+      #hero { padding: 0 24px 48px; }
+      .hero-photo-placeholder { width: 100%; opacity: 0.2; }
+      section { padding: 80px 24px; }
+      #biografie .bio-grid,
+      .prod-grid,
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <ul class="nav-links">
+    <li><a href="#biografie" data-i18n="nav_bio">Biografie</a></li>
+    <li><a href="#produktionen" data-i18n="nav_prod">Produktionen</a></li>
+    <li><a href="#contact" data-i18n="nav_contact">Kontakt</a></li>
+  </ul>
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="de">DE</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="es">ES</button>
+    <button class="lang-btn" data-lang="th">TH</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+<img class="hero-photo" src="photos/photo1.jpg" alt="antonin" />
+
+  <!-- Social links — prominent left column -->
+  <div class="hero-socials">
+    <a href="https://www.instagram.com/antonin.mp3/" target="_blank" class="hero-social-link">
+      <div class="social-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+      </div>
+      <span class="social-name">Instagram</span>
+      <span class="social-handle">@antonin.mp3</span>
+    </a>
+    <a href="https://www.youtube.com/@antonin.mp3" target="_blank" class="hero-social-link">
+      <div class="social-icon">
+        <svg width="24" height="18" viewBox="0 0 24 17" fill="currentColor"><path d="M23.495 2.205a3.02 3.02 0 0 0-2.122-2.136C19.505 0 12 0 12 0S4.495 0 2.627.069a3.02 3.02 0 0 0-2.122 2.136C0 4.073 0 8 0 8s0 3.927.505 5.795a3.02 3.02 0 0 0 2.122 2.136C4.495 16 12 16 12 16s7.505 0 9.373-.069a3.02 3.02 0 0 0 2.122-2.136C24 11.927 24 8 24 8s0-3.927-.505-5.795zM9.545 11.568V4.432L15.818 8l-6.273 3.568z"/></svg>
+      </div>
+      <span class="social-name">YouTube</span>
+      <span class="social-handle">@antonin.mp3</span>
+    </a>
+    <a href="https://open.spotify.com/artist/2XiyXFUptEZwXLdOrtlMap" target="_blank" class="hero-social-link">
+      <div class="social-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      </div>
+      <span class="social-name">Spotify</span>
+      <span class="social-handle">antonin</span>
+    </a>
+    <a href="https://music.apple.com/de/artist/antonin/281045725" target="_blank" class="hero-social-link">
+      <div class="social-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M23.994 6.124a9.23 9.23 0 0 0-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 0 0-1.877-.726 10.496 10.496 0 0 0-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026C4.786.07 4.043.15 3.34.428 2.004.958 1.04 1.88.475 3.208a4.95 4.95 0 0 0-.361 1.59c-.06.76-.079 1.52-.079 2.28v9.84c0 .76.02 1.52.08 2.28a4.926 4.926 0 0 0 .36 1.59c.565 1.326 1.527 2.25 2.86 2.78.702.278 1.445.36 2.19.4.426.02.854.027 1.28.027h9.84c.427 0 .854-.008 1.28-.028.745-.04 1.49-.12 2.19-.4 1.334-.53 2.297-1.453 2.86-2.78.24-.565.337-1.162.36-1.59.058-.76.079-1.52.079-2.28V8.5c0-.76-.02-1.52-.08-2.376zm-6.155 6.89c-.01.36-.135.655-.4.9a1.017 1.017 0 0 1-.833.24 1.084 1.084 0 0 1-.663-.373c-.303-.327-.487-.74-.623-1.164-.19-.588-.27-1.198-.28-1.814V10.8c0-.023-.005-.047-.008-.07l-4.343 1.148v4.25c-.008.37-.12.68-.38.934a1.04 1.04 0 0 1-.84.253 1.07 1.07 0 0 1-.663-.373c-.303-.327-.487-.74-.623-1.164a5.814 5.814 0 0 1-.28-1.814c0-.657.14-1.29.46-1.856.328-.583.8-.97 1.456-1.077l4.252-1.12c.44-.118.878-.234 1.319-.344.31-.08.614-.04.878.148.27.192.39.46.39.785v5.914z"/></svg>
+      </div>
+      <span class="social-name">Apple Music</span>
+      <span class="social-handle">antonin</span>
+    </a>
+  </div>
+
+  <!-- Bottom left: name + tag -->
+  <div class="hero-tag" data-i18n="hero_tag">Artist · Producer</div>
+  <h1>antonin</h1>
+
+</section>
+
+<!-- BIOGRAFIE -->
+<section id="biografie">
+  <div class="section-label" data-i18n="section_label_bio">001 — Biografie</div>
+  <div class="bio-grid">
+
+    <div class="reveal">
+      <div class="bio-photo-wrap">
+        <img src="photos/photo3.jpg" alt="antonin" />
+      </div>
+    </div>
+
+    <div class="bio-text reveal">
+      <h2 class="section-title" data-i18n-html="bio_title">Sound shaped<br>in Berlin's underground.</h2>
+      <p>
+        <span data-i18n-html="bio_p1"><strong>antonin</strong> ist Artist und Producer — geboren als Antonin Götz, aufgewachsen in Göttingen, heute in Berlin. Mit einem DIY- und Beatmaker-Hintergrund hat er sich seinen Sound selbst erarbeitet: organisch, eigenwillig, unverkennbar.</span>
+      </p>
+      <p>
+        <span data-i18n="bio_p2">Sein Spektrum reicht von dunklem Techno, Trance und Deep House bis hin zu Hip-Hop und Pop-Produktionen. Kein Genre als Grenze — verschiedene Welten, ein Sound.</span>
+      </p>
+<div class="tags">
+        <span class="tag">Techno</span>
+        <span class="tag">Trance</span>
+        <span class="tag">Deep House</span>
+        <span class="tag">Hip-Hop</span>
+        <span class="tag">Pop</span>
+        <span class="tag">DIY</span>
+        <span class="tag">Berlin</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRODUKTIONEN -->
+<section id="produktionen">
+  <div class="section-label" data-i18n="section_label_prod">002 — Produktionen</div>
+
+  <!-- Block 1: Musik & Releases -->
+  <h2 class="section-title reveal" data-i18n="prod_title1">Musik & Releases</h2>
+  <div class="prod-block reveal">
+    <div class="prod-media">
+      <iframe
+        src="https://open.spotify.com/embed/playlist/3p0Z4EsgauFiJYBkD7eaXj?utm_source=generator&theme=0"
+        width="100%" height="352" frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
+    </div>
+    <div class="prod-media">
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/ldb4u8layxI"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Block 2: Musikproduktionen -->
+  <h2 class="section-title reveal" style="margin-top:100px;" data-i18n="prod_title2">Musikproduktionen</h2>
+  <div class="prod-block reveal">
+    <div class="prod-media">
+      <iframe
+        src="https://open.spotify.com/embed/playlist/2wjTJw4LAUAIha0wU6Oqvu?utm_source=generator&theme=0"
+        width="100%" height="352" frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
+    </div>
+    <div class="prod-media">
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/mc52xRPxQYA"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label" data-i18n="section_label_contact">003 — Kontakt</div>
+  <h2 class="section-title reveal" data-i18n="contact_title">Zusammenarbeiten.</h2>
+
+  <div class="contact-grid">
+
+    <div class="contact-left reveal">
+      <h3 data-i18n="contact_h3">Get in touch</h3>
+      <p>
+        <span data-i18n="contact_p">Bookings, Features, Beat Placements, Mixing & Mastering — meld dich einfach. Ich antworte so schnell wie möglich.</span>
+      </p>
+      <a href="mailto:your@email.com" class="contact-email">your@email.com</a>
+      <div class="socials">
+        <a href="https://www.instagram.com/antonin.mp3/" target="_blank" class="social-link">Instagram</a>
+        <a href="https://open.spotify.com/artist/2XiyXFUptEZwXLdOrtlMap" target="_blank" class="social-link">Spotify</a>
+        <a href="https://www.youtube.com/@antonin.mp3" target="_blank" class="social-link">YouTube</a>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <form id="contact-form">
+        <div class="form-row">
+          <div class="field">
+            <label data-i18n="form_label_name">Name</label>
+            <input type="text" data-i18n-placeholder="form_placeholder_name" placeholder="Dein Name" required />
+          </div>
+          <div class="field">
+            <label data-i18n="form_label_email">E-Mail</label>
+            <input type="email" data-i18n-placeholder="form_placeholder_email" placeholder="deine@email.com" required />
+          </div>
+        </div>
+        <div class="field">
+          <label data-i18n="form_label_request">Anfrage</label>
+          <div class="select-wrap">
+            <select>
+              <option value="" data-i18n="form_select_default">Worum geht es?</option>
+              <option>Beat Placement</option>
+              <option>Mixing</option>
+              <option>Mastering</option>
+              <option>Feature / Collab</option>
+              <option>Booking / DJ Set</option>
+              <option data-i18n="opt_other">Sonstiges</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label data-i18n="form_label_message">Nachricht</label>
+          <textarea rows="5" data-i18n-placeholder="form_placeholder_message" placeholder="Erzähl mir mehr über dein Projekt..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn" data-i18n="submit_btn">Senden →</button>
+        <div class="form-success" id="form-success">
+          <span data-i18n="form_success_msg">✓ Nachricht gesendet — ich melde mich bald.</span>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 antonin.mp3</span>
+  <span id="visitor-count" style="opacity:0.4; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.1em;"></span>
+  <span data-i18n="footer_right">Berlin, Germany</span>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, select, input, textarea').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── TRANSLATIONS ──
+  const t = {
+    de: {
+      nav_bio: 'Biografie', nav_prod: 'Produktionen', nav_contact: 'Kontakt',
+      hero_tag: 'Artist · Producer',
+      section_label_bio: '001 — Biografie', section_label_prod: '002 — Produktionen', section_label_contact: '003 —Kontakt',
+      bio_title: 'Sound shaped<br>in Berlin\'s underground.',
+      bio_p1: '<strong>antonin</strong> ist Artist und Producer — geboren als Antonin Götz, aufgewachsen in Göttingen, heute in Berlin. Mit einem DIY- und Beatmaker-Hintergrund hat er sich seinen Sound selbst erarbeitet: organisch, eigenwillig, unverkennbar.',
+      bio_p2: 'Sein Spektrum reicht von dunklem Techno, Trance und Deep House bis hin zu Hip-Hop und Pop-Produktionen. Kein Genre als Grenze — verschiedene Welten, ein Sound.',
+      stat_years: 'Jahre Produktion', stat_school: 'Musikschule', stat_daws: 'DAWs gleichzeitig', stat_genres: 'Genres',
+      prod_title1: 'Musik & Releases', prod_title2: 'Musikproduktionen',
+      spotify_label1: 'Featured Tracks', spotify_label2: 'Alle Produktionen — von Hip-Hop bis Pop',
+      contact_title: 'Zusammenarbeiten.', contact_h3: 'Get in touch',
+      contact_p: 'Bookings, Features, Beat Placements, Mixing & Mastering — meld dich einfach. Ich antworte so schnell wie möglich.',
+      form_label_name: 'Name', form_label_email: 'E-Mail', form_label_request: 'Anfrage', form_label_message: 'Nachricht',
+      form_placeholder_name: 'Dein Name', form_placeholder_email: 'deine@email.com',
+      form_select_default: 'Worum geht es?', opt_other: 'Sonstiges',
+      form_placeholder_message: 'Erzähl mir mehr über dein Projekt...',
+      submit_btn: 'Senden →', form_success_msg: '✓ Nachricht gesendet — ich melde mich bald.',
+      footer_right: 'Berlin, Deutschland'
+    },
+    en: {
+      nav_bio: 'Biography', nav_prod: 'Productions', nav_contact: 'Contact',
+      hero_tag: 'Artist · Producer',
+      section_label_bio: '001 — Biography', section_label_prod: '002 — Productions', section_label_contact: '003 —Contact',
+      bio_title: 'Sound shaped<br>in Berlin\'s underground.',
+      bio_p1: '<strong>antonin</strong> is an artist and producer — born as Antonin Götz, raised in Göttingen, now based in Berlin. With a DIY and beatmaker background, he developed his own sound: organic, distinctive, unmistakable.',
+      bio_p2: 'His spectrum ranges from dark techno, trance and deep house to hip-hop and pop productions. No genre as a limit — different worlds, one sound.',
+      stat_years: 'yrs producing', stat_school: 'music school', stat_daws: 'DAWs at once', stat_genres: 'genres',
+      prod_title1: 'Music & Releases', prod_title2: 'Music Productions',
+      spotify_label1: 'Featured Tracks', spotify_label2: 'All Productions — from Hip-Hop to Pop',
+      contact_title: 'Work together.', contact_h3: 'Get in touch',
+      contact_p: 'Bookings, features, beat placements, mixing & mastering — just reach out. I\'ll get back to you as soon as possible.',
+      form_label_name: 'Name', form_label_email: 'E-Mail', form_label_request: 'Request', form_label_message: 'Message',
+      form_placeholder_name: 'Your name', form_placeholder_email: 'your@email.com',
+      form_select_default: 'What is it about?', opt_other: 'Other',
+      form_placeholder_message: 'Tell me more about your project...',
+      submit_btn: 'Send →', form_success_msg: '✓ Message sent — I\'ll be in touch soon.',
+      footer_right: 'Berlin, Germany'
+    },
+    es: {
+      nav_bio: 'Biografía', nav_prod: 'Producciones', nav_contact: 'Contacto',
+      hero_tag: 'Artist · Producer',
+      section_label_bio: '001 — Biografía', section_label_prod: '002 — Producciones', section_label_contact: '003 —Contacto',
+      bio_title: 'Sound shaped<br>in Berlin\'s underground.',
+      bio_p1: '<strong>antonin</strong> es artista y productor — nacido como Antonin Götz, criado en Göttingen, actualmente en Berlín. Con un trasfondo DIY y beatmaker, desarrolló su propio sonido: orgánico, singular, inconfundible.',
+      bio_p2: 'Su espectro abarca desde techno oscuro, trance y deep house hasta hip-hop y producciones pop. Sin límites de género — mundos diferentes, un solo sonido.',
+      stat_years: 'años produciendo', stat_school: 'escuela de música', stat_daws: 'DAWs a la vez', stat_genres: 'géneros',
+      prod_title1: 'Música & Lanzamientos', prod_title2: 'Producciones Musicales',
+      spotify_label1: 'Destacados', spotify_label2: 'Todas las producciones — de Hip-Hop a Pop',
+      contact_title: 'Trabajemos juntos.', contact_h3: 'Contáctame',
+      contact_p: 'Bookings, colaboraciones, beat placements, mixing & mastering — escríbeme. Respondo lo antes posible.',
+      form_label_name: 'Nombre', form_label_email: 'Correo', form_label_request: 'Solicitud', form_label_message: 'Mensaje',
+      form_placeholder_name: 'Tu nombre', form_placeholder_email: 'tu@correo.com',
+      form_select_default: '¿De qué se trata?', opt_other: 'Otro',
+      form_placeholder_message: 'Cuéntame más sobre tu proyecto...',
+      submit_btn: 'Enviar →', form_success_msg: '✓ Mensaje enviado — te contactaré pronto.',
+      footer_right: 'Berlín, Alemania'
+    },
+    th: {
+      nav_bio: 'ชีวประวัติ', nav_prod: 'ผลงาน', nav_contact: 'ติดต่อ',
+      hero_tag: 'Artist · Producer',
+      section_label_bio: '001 — ชีวประวัติ', section_label_prod: '002 — ผลงาน', section_label_contact: '003 —ติดต่อ',
+      bio_title: 'Sound shaped<br>in Berlin\'s underground.',
+      bio_p1: '<strong>antonin</strong> เป็นศิลปินและโปรดิวเซอร์ — เกิดในชื่อ Antonin Götz เติบโตที่ Göttingen ปัจจุบันอยู่ที่เบอร์ลิน ด้วยพื้นฐาน DIY และ beatmaker เขาพัฒนาเสียงของตัวเอง: เป็นธรรมชาติ โดดเด่น จดจำได้',
+      bio_p2: 'สเปกตรัมของเขาครอบคลุมตั้งแต่ techno มืด trance และ deep house ไปจนถึง hip-hop และผลงาน pop ไม่มีแนวเพลงเป็นขีดจำกัด — โลกที่แตกต่าง เสียงเดียว',
+      stat_years: 'ปีผลิต', stat_school: 'โรงเรียนดนตรี', stat_daws: 'DAWs พร้อมกัน', stat_genres: 'แนวเพลง',
+      prod_title1: 'เพลงและผลงาน', prod_title2: 'การผลิตเพลง',
+      spotify_label1: 'เพลงแนะนำ', spotify_label2: 'ผลงานทั้งหมด — จาก Hip-Hop ถึง Pop',
+      contact_title: 'มาทำงานร่วมกัน', contact_h3: 'ติดต่อ',
+      contact_p: 'Bookings, Features, Beat Placements, Mixing & Mastering — ติดต่อได้เลย ฉันจะตอบกลับโดยเร็ว',
+      form_label_name: 'ชื่อ', form_label_email: 'อีเมล', form_label_request: 'คำขอ', form_label_message: 'ข้อความ',
+      form_placeholder_name: 'ชื่อของคุณ', form_placeholder_email: 'อีเมลของคุณ',
+      form_select_default: 'เกี่ยวกับอะไร?', opt_other: 'อื่นๆ',
+      form_placeholder_message: 'บอกฉันเพิ่มเติมเกี่ยวกับโปรเจกต์ของคุณ...',
+      submit_btn: 'ส่ง →', form_success_msg: '✓ ส่งข้อความแล้ว — จะติดต่อกลับเร็วๆ นี้',
+      footer_right: 'เบอร์ลิน, เยอรมนี'
+    }
+  };
+
+  function setLang(lang) {
+    const tr = t[lang];
+    if (!tr) return;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (tr[key] !== undefined) el.textContent = tr[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.dataset.i18nHtml;
+      if (tr[key] !== undefined) el.innerHTML = tr[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.dataset.i18nPlaceholder;
+      if (tr[key] !== undefined) el.placeholder = tr[key];
+    });
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    document.documentElement.lang = lang;
+    localStorage.setItem('lang', lang);
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+
+  // Load saved or default lang
+  setLang(localStorage.getItem('lang') || 'de');
+
+  // ── CURSOR TRAIL ──
+  document.addEventListener('mousemove', (e) => {
+    const dot = document.createElement('div');
+    dot.className = 'cursor-trail';
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+    document.body.appendChild(dot);
+    setTimeout(() => { dot.style.opacity = '0'; }, 80);
+    setTimeout(() => dot.remove(), 480);
+  });
+
+  // ── NOISE VISUALIZER ──
+  const canvas = document.getElementById('visualizer');
+  const ctx = canvas.getContext('2d');
+  let bars = [];
+  const BAR_COUNT = 60;
+
+  function initBars() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    bars = Array.from({ length: BAR_COUNT }, (_, i) => ({
+      x: (canvas.width / BAR_COUNT) * i,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.003 + Math.random() * 0.004,
+      height: 30 + Math.random() * 80,
+    }));
+  }
+
+  function drawVisualizer(time) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const centerY = canvas.height * 0.62;
+    const barW = canvas.width / BAR_COUNT - 1;
+
+    bars.forEach(b => {
+      const h = b.height * (0.4 + 0.6 * Math.abs(Math.sin(b.phase + time * b.speed)));
+      const grad = ctx.createLinearGradient(0, centerY - h, 0, centerY + h);
+      grad.addColorStop(0, 'rgba(0,221,212,0.5)');
+      grad.addColorStop(0.5, 'rgba(0,221,212,0.15)');
+      grad.addColorStop(1, 'rgba(0,221,212,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.roundRect(b.x, centerY - h, barW, h * 2, 2);
+      ctx.fill();
+    });
+
+    requestAnimationFrame(drawVisualizer);
+  }
+
+  initBars();
+  window.addEventListener('resize', initBars);
+  requestAnimationFrame(drawVisualizer);
+
+  // ── VISITOR COUNTER ──
+  fetch('https://api.countapi.xyz/hit/antonin-mp3-site/visits')
+    .then(r => r.json())
+    .then(data => {
+      const el = document.getElementById('visitor-count');
+      if (el && data.value) el.textContent = data.value.toLocaleString() + ' visits';
+    })
+    .catch(() => {}); // silent fail
+
+  // Form submit (frontend only — hook up to backend/Formspree later)
+  document.getElementById('contact-form').addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('form-success').style.display = 'block';
+    e.target.reset();
+    setTimeout(() => {
+      document.getElementById('form-success').style.display = 'none';
+    }, 5000);
+  });
+</script>
+
+</body>
+</html>
