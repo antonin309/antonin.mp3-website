@@ -826,6 +826,18 @@
       .nav-links a { font-size: 11px; }
       .lang-switcher { gap: 6px; }
       .lang-btn { font-size: 10px; padding: 3px 8px; }
+      .hero-socials {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 90px 20px 0;
+        gap: 10px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .hero-socials::-webkit-scrollbar { display: none; }
+      .hero-social-link { padding: 10px 18px; flex-shrink: 0; }
+      .social-name { font-size: 14px; }
       #hero { padding: 0 24px 48px; }
       .hero-photo-placeholder { width: 100%; opacity: 0.2; }
       section { padding: 80px 24px; }
