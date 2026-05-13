@@ -236,7 +236,8 @@
       list-style: none;
     }
 
-    .nav-links a {
+    .nav-links a,
+    .nav-links button {
       font-size: 12px;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -244,9 +245,15 @@
       text-decoration: none;
       transition: color 0.2s;
       position: relative;
+      background: none;
+      border: none;
+      font-family: 'Space Mono', monospace;
+      cursor: none;
+      padding: 0;
     }
 
-    .nav-links a::after {
+    .nav-links a::after,
+    .nav-links button::after {
       content: '';
       position: absolute;
       bottom: -4px; left: 0;
@@ -255,8 +262,19 @@
       transition: width 0.3s;
     }
 
-    .nav-links a:hover { color: #fff; }
-    .nav-links a:hover::after { width: 100%; }
+    .nav-links a:hover,
+    .nav-links button:hover { color: #fff; }
+    .nav-links a:hover::after,
+    .nav-links button:hover::after { width: 100%; }
+    .nav-links button.active { color: var(--accent); }
+    .nav-links button.active::after { width: 100%; }
+
+    .nav-links .nav-sep {
+      color: rgba(255,255,255,0.12);
+      font-size: 10px;
+      user-select: none;
+      list-style: none;
+    }
 
     /* ── HERO ── */
     #hero {
@@ -960,14 +978,15 @@
 
     /* ── MOBILE ── */
     @media (max-width: 768px) {
-      nav { padding: 12px 20px 8px; flex-direction: column; align-items: flex-start; gap: 8px; background: rgba(8,8,8,0.97); }
-      .nav-links { gap: 16px; }
-      .nav-links a { font-size: 11px; }
+      nav { padding: 10px 20px 8px; gap: 8px; background: rgba(8,8,8,0.97); flex-wrap: wrap; }
+      .nav-links { gap: 14px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+      .nav-links::-webkit-scrollbar { display: none; }
+      .nav-links a, .nav-links button { font-size: 10px; white-space: nowrap; }
+      .nav-sep { white-space: nowrap; }
       .lang-switcher { gap: 5px; }
       .lang-btn { font-size: 9px; padding: 3px 7px; }
-      .sub-nav { gap: 6px; flex-wrap: wrap; }
-      .sub-nav-link { font-size: 9px; }
       .overlay { padding: 90px 24px 60px; }
+      #overlay-bio .overlay-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
       .overlay-close { right: 20px; top: 20px; }
       .gear-cat { min-width: 90px; font-size: 10px; }
       .gear-name { font-size: 16px; }
@@ -1001,26 +1020,38 @@
 <!-- NAV -->
 <nav>
   <ul class="nav-links">
-    <li><a href="#biografie" data-i18n="nav_bio">Biography</a></li>
     <li><a href="#produktionen" data-i18n="nav_prod">Productions</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+    <li class="nav-sep">·</li>
+    <li><button onclick="openOverlay('bio')" data-i18n="subnav_bio">Biography</button></li>
+    <li><button onclick="openOverlay('gear')" data-i18n="subnav_gear">Gear</button></li>
+    <li><button onclick="openOverlay('curation')" data-i18n="subnav_curation">Music Curation</button></li>
   </ul>
   <div class="lang-switcher">
-    <button class="lang-btn" data-lang="de">DE</button>
     <button class="lang-btn active" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="de">DE</button>
     <button class="lang-btn" data-lang="fr">FR</button>
     <button class="lang-btn" data-lang="es">ES</button>
     <button class="lang-btn" data-lang="th">TH</button>
-  </div>
-  <div class="sub-nav">
-    <button class="sub-nav-link" onclick="openOverlay('gear')" data-i18n="subnav_gear">Gear</button>
-    <span class="sub-nav-sep">·</span>
-    <button class="sub-nav-link" onclick="openOverlay('curation')" data-i18n="subnav_curation">Music Curation</button>
   </div>
 </nav>
 
 <!-- OVERLAYS -->
 <button class="overlay-close" id="overlay-close-btn" onclick="closeOverlay()">✕</button>
+
+<div class="overlay" id="overlay-bio">
+  <div class="overlay-inner" style="max-width:900px; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start;">
+    <div>
+      <img src="photos/photo4.jpg" alt="antonin" style="width:100%; border-radius:6px; object-fit:cover;" />
+    </div>
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <h2 class="section-title" style="font-size:clamp(36px,5vw,72px); text-transform:lowercase; letter-spacing:-0.02em;">antonin</h2>
+      <p data-i18n="bio_overlay_p1">Born as Antonin Götz in Göttingen, Germany — now based in Berlin. He learned piano as a child and spent his youth playing bass in several bands, ranging from hardcore punk to indie pop.</p>
+      <p data-i18n="bio_overlay_p2">His first production influences came from US hip-hop producers like DJ Premier — hard-hitting drums, sample-driven textures, tracks built with intention. That foundation stuck, and shaped everything that followed.</p>
+      <p data-i18n="bio_overlay_p3">Available for beat placements, features, mixing & mastering.</p>
+    </div>
+  </div>
+</div>
 
 <div class="overlay" id="overlay-gear">
   <div class="overlay-inner">
@@ -1029,11 +1060,19 @@
     <div class="gear-list">
       <div class="gear-item">
         <span class="gear-cat">DAW</span>
-        <span class="gear-name">Ableton Live 11</span>
+        <span class="gear-name">Ableton Live 11 Suite</span>
       </div>
       <div class="gear-item">
         <span class="gear-cat">Monitoring</span>
         <span class="gear-name">Steven Slate VSX Headphones</span>
+      </div>
+      <div class="gear-item">
+        <span class="gear-cat">Audio Effects</span>
+        <span class="gear-name">SoundToys</span>
+      </div>
+      <div class="gear-item">
+        <span class="gear-cat">Mastering</span>
+        <span class="gear-name">iZotope</span>
       </div>
     </div>
     <div style="margin-top:32px; display:flex; flex-direction:column; gap:12px; border-top:1px solid rgba(255,255,255,0.07); padding-top:28px;">
@@ -1286,8 +1325,9 @@
   // ── TRANSLATIONS ──
   const t = {
     de: {
-      nav_bio: 'Biografie', nav_prod: 'Produktionen', nav_contact: 'Kontakt',
-      subnav_gear: 'Gear', subnav_distribute: 'Distribute', subnav_curation: 'Music Curation',
+      nav_bio: 'Biografie', nav_prod: 'Releases', nav_contact: 'Kontakt',
+      subnav_bio: 'Biografie', subnav_gear: 'Gear', subnav_distribute: 'Distribute', subnav_curation: 'Music Curation',
+      bio_overlay_label: 'Biografie', bio_overlay_title: 'Antonin Götz.', bio_overlay_p1: 'Geboren als Antonin Götz in Göttingen, Deutschland — heute in Berlin. Als Kind lernte er Klavier und spielte in seiner Jugend als Bassist in verschiedenen Bands, von Hardcore-Punk bis Indie-Pop.', bio_overlay_p2: 'Seine ersten Producer-Vorbilder fand er in US-Hip-Hop-Produzenten wie DJ Premier — harte Drums, Sample-Texturen, Tracks mit echtem Charakter. Dieses Fundament prägt bis heute alles, was danach kam.', bio_overlay_p3: 'Verfügbar für Beat Placements, Features, Mixing & Mastering.',
       gear_label: 'Gear', gear_title: 'Studio Setup.',
       distro_label: 'Distribute', distro_title: 'Musik veröffentlichen.', distro_p: 'Ich nutze DistroKid zum Verteilen meiner Musik — schnell, günstig, 100% Tantiemen bleiben bei dir. Über meinen Link bekommst du 7% Rabatt.',
       distro_card_p: 'Unbegrenzt Songs hochladen, Vertrieb zu Spotify, Apple Music, YouTube und 150+ weiteren Plattformen. Keine Kosten pro Release.',
@@ -1312,8 +1352,9 @@
       footer_right: 'Berlin, Deutschland'
     },
     en: {
-      nav_bio: 'Biography', nav_prod: 'Productions', nav_contact: 'Contact',
-      subnav_gear: 'Gear', subnav_distribute: 'Distribute', subnav_curation: 'Music Curation',
+      nav_bio: 'Biography', nav_prod: 'Releases', nav_contact: 'Contact',
+      subnav_bio: 'Biography', subnav_gear: 'Gear', subnav_distribute: 'Distribute', subnav_curation: 'Music Curation',
+      bio_overlay_label: 'Biography', bio_overlay_title: 'Antonin Götz.', bio_overlay_p1: 'Born as Antonin Götz in Göttingen, Germany — now based in Berlin. He learned piano as a child and spent his youth playing bass in several bands, ranging from hardcore punk to indie pop.', bio_overlay_p2: 'His first production influences came from US hip-hop producers like DJ Premier — hard-hitting drums, sample-driven textures, tracks built with intention. That foundation stuck, and shaped everything that followed.', bio_overlay_p3: 'Available for beat placements, features, mixing & mastering.',
       gear_label: 'Gear', gear_title: 'Studio Setup.',
       distro_label: 'Distribute', distro_title: 'Release your Music.', distro_p: 'I use DistroKid to distribute my music — fast, affordable, and keeps 100% of royalties. Sign up through my link and get 7% off.',
       distro_card_p: 'Upload unlimited songs, distribute to Spotify, Apple Music, YouTube and 150+ platforms. No per-release fees.',
@@ -1338,8 +1379,8 @@
       footer_right: 'Berlin, Germany'
     },
     fr: {
-      nav_bio: 'Biographie', nav_prod: 'Productions', nav_contact: 'Contact',
-      subnav_gear: 'Gear', subnav_distribute: 'Distribuer', subnav_curation: 'Curation',
+      nav_bio: 'Biographie', nav_prod: 'Releases', nav_contact: 'Contact',
+      subnav_bio: 'Biographie', subnav_gear: 'Gear', subnav_distribute: 'Distribuer', subnav_curation: 'Curation',
       hero_tag: 'Artiste · Producteur',
       section_label_bio: '001 — Biographie', section_label_prod: '002 — Productions', section_label_contact: '003 — Contact',
       bio_title: 'Sound shaped<br>in Berlin\'s underground.',
@@ -1361,11 +1402,12 @@
       form_select_default: 'De quoi s\'agit-il ?', opt_other: 'Autre',
       form_placeholder_message: 'Parle-moi de ton projet...',
       submit_btn: 'Envoyer →', form_success_msg: '✓ Message envoyé — je reviens vers toi bientôt.',
-      footer_right: 'Berlin, Allemagne'
+      footer_right: 'Berlin, Allemagne',
+      bio_overlay_label: 'Biographie', bio_overlay_title: 'Antonin Götz.', bio_overlay_p1: 'Né sous le nom d\'Antonin Götz à Göttingen, Allemagne — aujourd\'hui basé à Berlin. Il apprend le piano enfant, puis passe sa jeunesse comme bassiste dans plusieurs groupes, du hardcore punk à l\'indie pop.', bio_overlay_p2: 'Ses premières influences en production viennent des producteurs hip-hop américains comme DJ Premier — drums percutantes, textures samplées, tracks construits avec intention. Ce socle a tout façonné.', bio_overlay_p3: 'Disponible pour beat placements, features, mixing & mastering.'
     },
     es: {
-      nav_bio: 'Biografía', nav_prod: 'Producciones', nav_contact: 'Contacto',
-      subnav_gear: 'Gear', subnav_distribute: 'Distribuir', subnav_curation: 'Curación',
+      nav_bio: 'Biografía', nav_prod: 'Releases', nav_contact: 'Contacto',
+      subnav_bio: 'Biografía', subnav_gear: 'Gear', subnav_distribute: 'Distribuir', subnav_curation: 'Curación',
       hero_tag: 'Artist · Producer',
       section_label_bio: '001 — Biografía', section_label_prod: '002 — Producciones', section_label_contact: '003 —Contacto',
       bio_title: 'Sound shaped<br>in Berlin\'s underground.',
@@ -1381,11 +1423,16 @@
       form_select_default: '¿De qué se trata?', opt_other: 'Otro',
       form_placeholder_message: 'Cuéntame más sobre tu proyecto...',
       submit_btn: 'Enviar →', form_success_msg: '✓ Mensaje enviado — te contactaré pronto.',
-      footer_right: 'Berlín, Alemania'
+      footer_right: 'Berlín, Alemania',
+      bio_overlay_label: 'Biografía', bio_overlay_title: 'Antonin Götz.', bio_overlay_p1: 'Nacido como Antonin Götz en Göttingen, Alemania — actualmente en Berlín. Aprendió piano de niño y pasó su juventud tocando el bajo en varias bandas, del hardcore punk al indie pop.', bio_overlay_p2: 'Sus primeras influencias como productor vinieron de la escena hip-hop de EE.UU. — productores como DJ Premier: drums contundentes, texturas sampleadas, tracks construidos con intención. Esa base lo define todo.', bio_overlay_p3: 'Disponible para beat placements, features, mixing & mastering.',
+      gear_label: 'Gear', gear_title: 'Studio Setup.',
+      distro_label: 'Distribuir', distro_title: 'Publica tu Música.', distro_p: 'Uso DistroKid para distribuir mi música — rápido, económico, 100% de regalías. Si te registras con mi enlace, obtienes un 7% de descuento.', distro_card_p: 'Subidas ilimitadas, distribución en Spotify, Apple Music, YouTube y 150+ plataformas. Sin tarifas por lanzamiento.', distro_btn: '7% de descuento en DistroKid →',
+      curation_label: 'Curación', curation_title: 'Playlist Curator.', curation_p: 'Sí — también soy curador musical. Gestiono playlists en Spotify: Techno, Trance, Deep House, Hip-Hop y Pop. ¿Quieres que tu track aparezca? Envíalo a través de PlaylistPanda.', curation_btn: 'Enviar a mis Playlists →'
     },
     th: {
-      nav_bio: 'ชีวประวัติ', nav_prod: 'ผลงาน', nav_contact: 'ติดต่อ',
-      subnav_gear: 'Gear', subnav_distribute: 'Distribute', subnav_curation: 'Music Curation',
+      nav_bio: 'ชีวประวัติ', nav_prod: 'Releases', nav_contact: 'ติดต่อ',
+      subnav_bio: 'ชีวประวัติ', subnav_gear: 'Gear', subnav_distribute: 'Distribute', subnav_curation: 'Music Curation',
+      bio_overlay_label: 'ชีวประวัติ', bio_overlay_title: 'Antonin Götz.', bio_overlay_p1: 'เกิดในชื่อ Antonin Götz ที่เมือง Göttingen ประเทศเยอรมนี — ปัจจุบันอยู่ที่เบอร์ลิน เขาเรียนเปียโนตั้งแต่เด็ก และใช้ช่วงวัยรุ่นเล่นเบสในหลายวง ตั้งแต่ hardcore punk จนถึง indie pop', bio_overlay_p2: 'แรงบันดาลใจด้านการโปรดิวซ์ครั้งแรกมาจากโปรดิวเซอร์ฮิปฮอปอเมริกัน อย่าง DJ Premier — กลองที่หนักแน่น ลายเสียงจากแซมเปิล แทร็กที่สร้างขึ้นอย่างมีเจตนา รากฐานนั้นยังคงอยู่จนถึงทุกวันนี้', bio_overlay_p3: 'รับงาน beat placements, features, mixing & mastering',
       hero_tag: 'Artist · Producer',
       section_label_bio: '001 — ชีวประวัติ', section_label_prod: '002 — ผลงาน', section_label_contact: '003 —ติดต่อ',
       bio_title: 'Sound shaped<br>in Berlin\'s underground.',
@@ -1401,7 +1448,10 @@
       form_select_default: 'เกี่ยวกับอะไร?', opt_other: 'อื่นๆ',
       form_placeholder_message: 'บอกฉันเพิ่มเติมเกี่ยวกับโปรเจกต์ของคุณ...',
       submit_btn: 'ส่ง →', form_success_msg: '✓ ส่งข้อความแล้ว — จะติดต่อกลับเร็วๆ นี้',
-      footer_right: 'เบอร์ลิน, เยอรมนี'
+      footer_right: 'เบอร์ลิน, เยอรมนี',
+      gear_label: 'Gear', gear_title: 'Studio Setup.',
+      distro_label: 'Distribute', distro_title: 'เผยแพร่เพลงของคุณ', distro_p: 'ฉันใช้ DistroKid ในการแจกจ่ายเพลง — รวดเร็ว ราคาย่อมเยา และได้ค่าลิขสิทธิ์ 100% สมัครผ่านลิงก์ของฉันแล้วรับส่วนลด 7%', distro_card_p: 'อัปโหลดไม่จำกัด กระจายไปยัง Spotify, Apple Music, YouTube และ 150+ แพลตฟอร์ม', distro_btn: 'ลด 7% กับ DistroKid →',
+      curation_label: 'Music Curation', curation_title: 'Playlist Curator.', curation_p: 'ใช่ — ฉันเป็น curator ด้วย ดูแลเพลย์ลิสต์บน Spotify: Techno, Trance, Deep House, Hip-Hop และ Pop ต้องการส่งเพลง? ส่งผ่าน PlaylistPanda ได้เลย', curation_btn: 'ส่งเพลงของคุณ →'
     }
   };
 
@@ -1442,8 +1492,8 @@
       el.classList.add('active');
       document.getElementById('overlay-close-btn').style.display = 'flex';
       document.body.style.overflow = 'hidden';
-      document.querySelectorAll('.sub-nav-link').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.querySelector(`.sub-nav-link[onclick*="${id}"]`);
+      document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.querySelector(`.nav-links button[onclick*="${id}"]`);
       if (activeBtn) activeBtn.classList.add('active');
     }
   }
@@ -1451,7 +1501,7 @@
     document.querySelectorAll('.overlay').forEach(o => o.classList.remove('active'));
     document.getElementById('overlay-close-btn').style.display = 'none';
     document.body.style.overflow = '';
-    document.querySelectorAll('.sub-nav-link').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
   }
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOverlay(); });
   document.getElementById('overlay-close-btn').style.display = 'none';
