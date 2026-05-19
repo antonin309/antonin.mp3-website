@@ -1,6 +1,6 @@
 # antonin.mp3 — Artist Website
 
-Personal website for antonin, music producer and artist based in Berlin.
+My personal artist/producer website. Dark design, links to my music on Spotify and Apple Music, and a contact form. Available in 4 languages.
 
 ## Pages
 
