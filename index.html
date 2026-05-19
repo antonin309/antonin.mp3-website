@@ -935,18 +935,6 @@
       letter-spacing: 0.1em;
     }
 
-    /* ── CURSOR TRAIL ── */
-    .cursor-trail {
-      position: fixed;
-      width: 4px; height: 4px;
-      background: var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      opacity: 0.5;
-      transition: opacity 0.4s ease;
-    }
 
     /* ── LANG SWITCHER ── */
     .lang-switcher {
@@ -1308,18 +1296,15 @@
 <script>
   // Cursor
   const cursor = document.getElementById('cursor');
-  let mouseX = 0, mouseY = 0, rafPending = false;
+  let mouseX = 0, mouseY = 0;
   document.addEventListener('mousemove', e => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    if (!rafPending) {
-      rafPending = true;
-      requestAnimationFrame(() => {
-        cursor.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
-        rafPending = false;
-      });
-    }
-  });
+  }, { passive: true });
+  (function loop() {
+    cursor.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    requestAnimationFrame(loop);
+  })();
   document.querySelectorAll('a, button, select, input, textarea').forEach(el => {
     el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
     el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
@@ -1520,16 +1505,6 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOverlay(); });
   document.getElementById('overlay-close-btn').style.display = 'none';
 
-  // ── CURSOR TRAIL ──
-  document.addEventListener('mousemove', (e) => {
-    const dot = document.createElement('div');
-    dot.className = 'cursor-trail';
-    dot.style.left = e.clientX + 'px';
-    dot.style.top = e.clientY + 'px';
-    document.body.appendChild(dot);
-    setTimeout(() => { dot.style.opacity = '0'; }, 80);
-    setTimeout(() => dot.remove(), 480);
-  });
 
   // ── NOISE VISUALIZER ──
   const canvas = document.getElementById('visualizer');
