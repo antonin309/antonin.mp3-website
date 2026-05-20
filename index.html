@@ -40,6 +40,7 @@
       line-height: 1.6;
       cursor: none;
       overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
     }
 
     body::before {
@@ -50,6 +51,10 @@
       pointer-events: none;
       z-index: 9999;
       opacity: 0.4;
+    }
+
+    @media (max-width: 768px) {
+      body::before { display: none; }
     }
 
     #cursor {
@@ -280,6 +285,7 @@
     /* ── HERO ── */
     #hero {
       height: 100vh;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -1298,15 +1304,19 @@
 <script>
   // Cursor
   const cursor = document.getElementById('cursor');
-  let mouseX = 0, mouseY = 0;
-  document.addEventListener('mousemove', e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  }, { passive: true });
-  (function loop() {
-    cursor.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-    requestAnimationFrame(loop);
-  })();
+  if (window.matchMedia('(pointer: fine)').matches) {
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }, { passive: true });
+    (function loop() {
+      cursor.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+      requestAnimationFrame(loop);
+    })();
+  } else {
+    cursor.style.display = 'none';
+  }
   document.querySelectorAll('a, button, select, input, textarea').forEach(el => {
     el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
     el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
