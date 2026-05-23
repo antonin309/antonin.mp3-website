@@ -1,6 +1,8 @@
 # antonin.mp3 — Artist Website
 
-My personal artist/producer website. Dark design, links to my music on Spotify and Apple Music, and a contact form. Available in 4 languages.
+My personal artist/producer website. Wanted something dark and minimal that links to my music on Spotify and Apple Music. Built it in 4 languages (DE/EN/ES/TH) with a contact form.
+
+**Learned:** multilingual HTML, CSS variables, vanilla JS
 
 ## Pages
 
